@@ -1,166 +1,126 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>INCY Routing Profiles</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INCY Routing Profiles</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    max-width: 650px;
-    margin: 35px auto;
-    padding: 0 16px;
-    background: #f5f6f8;
-    color: #222;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #222;
+      line-height: 1.5;
+    }
 
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
+    h1 {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
 
-details {
-    background: white;
-    margin: 14px 0;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    overflow: hidden;
-}
+    details {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      padding: 14px 18px;
+    }
 
-summary {
-    padding: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 17px;
-}
+    summary {
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-summary:hover {
-    background: #f0f3f7;
-}
+    .description {
+      color: #555;
+      margin: 12px 0;
+    }
 
-.content {
-    padding: 20px;
-    border-top: 1px solid #eee;
-    text-align: center;
-}
+    .qr {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
 
-.qr {
-    display: flex;
-    justify-content: center;
-    margin: 10px auto 20px;
-}
+    .source {
+      font-size: 13px;
+      color: #666;
+      overflow-wrap: anywhere;
+    }
 
-.qr img, .qr canvas {
-    max-width: 100%;
-    height: auto;
-}
-
-.description {
-    color: #666;
-    font-size: 14px;
-}
-
-a {
-    color: #1769aa;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.button {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #1769aa;
-    color: white;
-    border-radius: 6px;
-    margin: 8px;
-}
-</style>
+    .source a {
+      color: #1769aa;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>INCY Routing Profiles</h1>
+  <h1>INCY Routing Profiles</h1>
 
-<div id="profiles"></div>
+  <details name="routing-profiles">
+    <summary>RU</summary>
 
-<script>
-const profiles = [
-    {
-        name: "RU_MODE",
-        description: "Российские ресурсы напрямую",
-        file: "RU_MODE.json"
-    },
-    {
-        name: "ABROAD_MODE_RUONLY",
-        description: "Российские ресурсы через VPN, остальные напрямую",
-        file: "ABROAD_MODE_RUONLY.json"
-    },
-    {
-        name: "ABROAD_MODE_VPN",
-        description: "Весь трафик через VPN",
-        file: "ABROAD_MODE_VPN.json"
-    }
-];
+    <p class="description">
+      Российские домены и IP — напрямую.
+      Остальной трафик — через прокси.
+    </p>
 
-const baseURL =
-"https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/";
+    <div class="qr" id="qr-ru"></div>
 
-const container = document.getElementById("profiles");
+    <p class="source">
+      Source URL:
+      <a href="https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/RU.json">
+        RU.json
+      </a>
+    </p>
+  </details>
 
-profiles.forEach((profile, index) => {
-    const sourceURL = baseURL + profile.file;
-    const incyURL = "incy://autorouting/add/" + sourceURL;
+  <details name="routing-profiles">
+    <summary>ABROAD</summary>
 
-    const details = document.createElement("details");
-    details.name = "routing-profiles";
+    <p class="description">
+      Российские домены и IP — через прокси.
+      Остальной трафик — напрямую.
+    </p>
 
-    const summary = document.createElement("summary");
-    summary.textContent = profile.name;
+    <div class="qr" id="qr-abroad"></div>
 
-    const content = document.createElement("div");
-    content.className = "content";
+    <p class="source">
+      Source URL:
+      <a href="https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/ABROAD.json">
+        ABROAD.json
+      </a>
+    </p>
+  </details>
 
-    const description = document.createElement("p");
-    description.className = "description";
-    description.textContent = profile.description;
+  <script>
+    const profiles = [
+      {
+        id: "qr-ru",
+        url: "https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/RU.json"
+      },
+      {
+        id: "qr-abroad",
+        url: "https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/ABROAD.json"
+      }
+    ];
 
-    const qr = document.createElement("div");
-    qr.className = "qr";
+    profiles.forEach(profile => {
+      const importUrl = "incy://autorouting/add/" + profile.url;
 
-    const addLink = document.createElement("a");
-    addLink.href = incyURL;
-    addLink.className = "button";
-    addLink.textContent = "Добавить в INCY";
-
-    const source = document.createElement("p");
-    source.className = "description";
-
-    const sourceLink = document.createElement("a");
-    sourceLink.href = sourceURL;
-    sourceLink.target = "_blank";
-    sourceLink.rel = "noopener";
-    sourceLink.textContent = "Открыть JSON Source";
-
-    source.appendChild(sourceLink);
-
-    content.append(description, qr, addLink, source);
-    details.append(summary, content);
-    container.appendChild(details);
-
-    new QRCode(qr, {
-        text: incyURL,
+      new QRCode(document.getElementById(profile.id), {
+        text: importUrl,
         width: 220,
         height: 220,
         correctLevel: QRCode.CorrectLevel.M
+      });
     });
-});
-</script>
+  </script>
 
 </body>
 </html>
