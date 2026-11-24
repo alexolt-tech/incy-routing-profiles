@@ -1,5 +1,5 @@
 {
-  "Name": "ABROAD_MODE_RUONLY",
+  "Name": "ABROAD",
   "GlobalProxy": "false",
   "UseChunkFiles": "true",
   "RemoteDns": "8.8.8.8",
