@@ -12,21 +12,37 @@
   "DomesticDNSIP": "77.88.8.8",
   "Geoipurl": "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip/release/geoip.dat",
   "Geositeurl": "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite/release/geosite.dat",
-  "LastUpdated": "1795496758",
+  "LastUpdated": "1794481195",
   "DnsHosts": {
     "lkfl2.nalog.ru": "213.24.64.175",
     "lknpd.nalog.ru": "213.24.64.181"
   },
-  "RouteOrder": "block-direct-proxy",
+  "RouteOrder": "block-proxy-direct",
   "DirectSites": [
     "geosite:private",
-    "geosite:category-ru"
+    "geosite:category-ru",
+    "geosite:whitelist",
+    "geosite:microsoft",
+    "geosite:apple",
+    "geosite:epicgames",
+    "geosite:riot",
+    "geosite:escapefromtarkov",
+    "geosite:steam",
+    "geosite:twitch",
+    "geosite:pinterest",
+    "geosite:faceit"
   ],
   "DirectIp": [
     "geoip:private",
     "geoip:direct"
   ],
-  "ProxySites": [],
+  "ProxySites": [
+    "geosite:google-play",
+    "geosite:github",
+    "geosite:twitch-ads",
+    "geosite:youtube",
+    "geosite:telegram"
+  ],
   "ProxyIp": [],
   "BlockSites": [
     "geosite:win-spy",
