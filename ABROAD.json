@@ -17,7 +17,7 @@
     "lkfl2.nalog.ru": "213.24.64.175",
     "lknpd.nalog.ru": "213.24.64.181"
   },
-  "RouteOrder": "block-direct-proxy",
+  "RouteOrder": "block-proxy-direct",
   "DirectSites": [
     "geosite:private"
   ],
@@ -28,7 +28,7 @@
     "geosite:category-ru"
   ],
   "ProxyIp": [
-    "geoip:direct"
+    "geoip:ru"
   ],
   "BlockSites": [
     "geosite:win-spy",
