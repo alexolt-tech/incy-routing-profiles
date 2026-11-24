@@ -32,7 +32,6 @@
   ],
   "BlockSites": [
     "geosite:win-spy",
-    "geosite:torrent",
     "geosite:category-ads"
   ],
   "BlockIp": [],
