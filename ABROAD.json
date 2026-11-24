@@ -27,9 +27,7 @@
   "ProxySites": [
     "geosite:category-ru"
   ],
-  "ProxyIp": [
-    "geoip:ru"
-  ],
+  "ProxyIp": [],
   "BlockSites": [
     "geosite:win-spy",
     "geosite:torrent",
