@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INCY Routing Profiles</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 0 16px;
+    background: #f5f6f8;
+    color: #222;
+}
+h1 { text-align: center; }
+.profile {
+    background: white;
+    padding: 20px;
+    margin: 18px 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.qr { min-width: 150px; }
+.qr img, .qr canvas { display: block; }
+.description { color: #666; font-size: 14px; }
+a { color: #1769aa; }
+@media (max-width: 480px) {
+    .profile { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>INCY Routing Profiles</h1>
+
+<div id="profiles"></div>
+
+<script>
+const profiles = [
+    {
+        name: "RU_MODE",
+        description: "Российские ресурсы напрямую",
+        file: "RU_MODE.json"
+    },
+    {
+        name: "ABROAD_MODE_RUONLY",
+        description: "Только российские ресурсы через VPN",
+        file: "ABROAD_MODE_RUONLY.json"
+    },
+    {
+        name: "ABROAD_MODE_VPN",
+        description: "Весь трафик через VPN",
+        file: "ABROAD_MODE_VPN.json"
+    }
+];
+
+const baseURL =
+"https://raw.githubusercontent.com/alexolt-tech/incy-routing-profiles/main/";
+
+const container = document.getElementById("profiles");
+
+profiles.forEach((profile, index) => {
+    const sourceURL = baseURL + profile.file;
+    const incyURL = "incy://autorouting/add/" + sourceURL;
+
+    const card = document.createElement("div");
+    card.className = "profile";
+
+    const qr = document.createElement("div");
+    qr.className = "qr";
+    qr.id = "qr-" + index;
+
+    const info = document.createElement("div");
+
+    const title = document.createElement("h2");
+    title.textContent = profile.name;
+
+    const description = document.createElement("p");
+    description.className = "description";
+    description.textContent = profile.description;
+
+    const link = document.createElement("a");
+    link.href = incyURL;
+    link.textContent = "Добавить в INCY";
+
+    const source = document.createElement("p");
+    source.className = "description";
+
+    const sourceLink = document.createElement("a");
+    sourceLink.href = sourceURL;
+    sourceLink.textContent = "JSON Source";
+    sourceLink.target = "_blank";
+    sourceLink.rel = "noopener";
+
+    source.appendChild(sourceLink);
+    info.append(title, description, link, source);
+    card.append(qr, info);
+    container.appendChild(card);
+
+    new QRCode(qr, {
+        text: incyURL,
+        width: 150,
+        height: 150,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+});
+</script>
+
+</body>
+</html>
